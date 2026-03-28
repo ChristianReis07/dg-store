@@ -1,0 +1,18 @@
+{
+  "name": "dg-store",
+  "version": "1.0.0",
+  "description": "",
+  "main": "carousel.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev:css": "tailwindcss -i ./input.css -o ./output.css --watch",
+    "build:css": "tailwindcss -i ./input.css -o ./output.css --minify"
+  },
+  "keywords": [],
+  "author": "Christian Reis",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "tailwindcss": "^3.4.1"
+  }
+}

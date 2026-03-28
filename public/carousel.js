@@ -38,7 +38,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.target === modal) closeModal();
   });
 
-  imagens.forEach((img) => {
+  const realCount = imagens.length;
+  const allImages = [...imagens, ...imagens, ...imagens];
+  let currentIndex = realCount;
+  let isTransitioning = false;
+
+  allImages.forEach((img) => {
     const slide = document.createElement("div");
     slide.className =
       "min-w-full sm:min-w-[50%] md:min-w-[33.333%] lg:min-w-[25%] p-2 flex-shrink-0";
@@ -63,43 +68,105 @@ document.addEventListener("DOMContentLoaded", () => {
     track.appendChild(slide);
   });
 
-  let currentIndex = 0;
-
-  const updateCarousel = () => {
+  const updateCarousel = (withTransition = true) => {
+    if (!track.children.length) return;
     const slideWidth = track.children[0].getBoundingClientRect().width;
+
+    if (withTransition) {
+      track.style.transition = "transform 0.5s ease-in-out";
+    } else {
+      track.style.transition = "none";
+    }
+
     track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
   };
 
-  const getMaxIndex = () => {
-    const slideWidth = track.children[0].getBoundingClientRect().width;
-    const itemsNaTela = Math.floor(
-      track.parentElement.getBoundingClientRect().width / slideWidth,
-    );
-    return Math.max(0, imagens.length - itemsNaTela);
-  };
+  track.addEventListener("transitionend", () => {
+    isTransitioning = false;
+    if (currentIndex <= realCount - 1) {
+      currentIndex += realCount;
+      updateCarousel(false);
+    } else if (currentIndex >= realCount * 2) {
+      currentIndex -= realCount;
+      updateCarousel(false);
+    }
+  });
 
   prevBtn.addEventListener("click", () => {
-    if (currentIndex > 0) {
-      currentIndex--;
-    } else {
-      currentIndex = getMaxIndex();
-    }
+    if (isTransitioning) return;
+    isTransitioning = true;
+    currentIndex--;
     updateCarousel();
   });
 
   nextBtn.addEventListener("click", () => {
-    if (currentIndex < getMaxIndex()) {
-      currentIndex++;
-    } else {
-      currentIndex = 0;
-    }
+    if (isTransitioning) return;
+    isTransitioning = true;
+    currentIndex++;
     updateCarousel();
   });
 
   window.addEventListener("resize", () => {
-    currentIndex = Math.min(currentIndex, getMaxIndex());
-    updateCarousel();
+    updateCarousel(false);
   });
 
-  setTimeout(updateCarousel, 100);
+  setTimeout(() => updateCarousel(false), 100);
+
+  let startX = 0;
+  let endX = 0;
+
+  track.addEventListener(
+    "touchstart",
+    (e) => {
+      startX = e.touches[0].clientX;
+    },
+    { passive: true },
+  );
+
+  track.addEventListener(
+    "touchmove",
+    (e) => {
+      endX = e.touches[0].clientX;
+    },
+    { passive: true },
+  );
+
+  track.addEventListener("touchend", () => {
+    if (!startX || !endX) return;
+    const diffX = startX - endX;
+
+    if (diffX > 50) {
+      if (!isTransitioning) {
+        isTransitioning = true;
+        currentIndex++;
+        updateCarousel();
+      }
+    } else if (diffX < -50) {
+      if (!isTransitioning) {
+        isTransitioning = true;
+        currentIndex--;
+        updateCarousel();
+      }
+    }
+    startX = 0;
+    endX = 0;
+  });
+
+  const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+  const mobileMenu = document.getElementById("mobile-menu");
+  const mobileLinks = mobileMenu.querySelectorAll("a");
+
+  if (mobileMenuBtn && mobileMenu) {
+    mobileMenuBtn.addEventListener("click", () => {
+      mobileMenu.classList.toggle("hidden");
+      mobileMenu.classList.toggle("flex");
+    });
+
+    mobileLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        mobileMenu.classList.add("hidden");
+        mobileMenu.classList.remove("flex");
+      });
+    });
+  }
 });
