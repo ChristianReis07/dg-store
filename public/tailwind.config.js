@@ -4,8 +4,8 @@ export default {
     extend: {
       colors: {
         daimaoh: {
-          DEFAULT: "#61EDCC",
-          hover: "#4DCCB0",
+          DEFAULT: "#a7e68d",
+          hover: "#a7e68d",
         },
       },
     },

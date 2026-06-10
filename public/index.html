@@ -12,13 +12,13 @@
       class="fixed top-0 w-full z-50 bg-zinc-900/95 backdrop-blur-md border-b border-zinc-800"
     >
       <div
-        class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center"
+        class="max-w-7xl mx-auto px-6 h-24 flex justify-between items-center"
       >
         <a href="#inicio" class="flex items-center shrink-0">
           <img
             src="./assets/logos/DG_Logo.png"
             alt="Logo DGStore"
-            class="h-20 md:h-24 w-auto object-contain"
+            class="h-24 md:h-28 w-auto object-contain"
           />
         </a>
 
@@ -70,6 +70,15 @@
             ></span>
           </a>
           <a
+            href="./catalogo.html"
+            class="h-full flex items-center text-sm font-medium text-zinc-400 hover:text-daimaoh relative group transition-colors"
+          >
+            Catálogo
+            <span
+              class="absolute bottom-0 left-0 w-full h-0.5 bg-daimaoh scale-x-0 group-hover:scale-x-100 transition-transform origin-left"
+            ></span>
+          </a>
+          <a
             href="#contato"
             class="h-full flex items-center text-sm font-medium text-zinc-400 hover:text-daimaoh relative group transition-colors"
           >
@@ -83,7 +92,7 @@
 
       <div
         id="mobile-menu"
-        class="hidden md:hidden bg-zinc-900/95 border-t border-zinc-800 absolute top-20 left-0 w-full flex-col px-6 py-4 space-y-4 shadow-lg backdrop-blur-md"
+        class="hidden md:hidden bg-zinc-900/95 border-t border-zinc-800 absolute top-24 left-0 w-full flex-col px-6 py-4 space-y-4 shadow-lg backdrop-blur-md"
       >
         <a
           href="#inicio"
@@ -99,6 +108,11 @@
           href="#galeria"
           class="block text-zinc-400 hover:text-daimaoh font-medium transition-colors"
           >Serviços</a
+        >
+        <a
+          href="./catalogo.html"
+          class="block text-zinc-400 hover:text-daimaoh font-medium transition-colors"
+          >Catálogo</a
         >
         <a
           href="#contato"
@@ -241,9 +255,17 @@
 
     <section id="galeria" class="py-20 px-6 max-w-7xl mx-auto">
       <h2 class="text-3xl font-bold mb-2 text-center">Nosso Acervo</h2>
-      <p class="text-zinc-400 text-center mb-12">
+      <p class="text-zinc-400 text-center mb-8">
         Confira alguns destaques do nosso acervo.
       </p>
+      <div class="text-center mb-12">
+        <a
+          href="./catalogo.html"
+          class="bg-daimaoh text-zinc-900 px-6 py-3 rounded-lg font-bold hover:bg-daimaoh-hover transition-colors"
+        >
+          Ver Catálogo Completo
+        </a>
+      </div>
 
       <div
         class="relative max-w-full mx-auto overflow-hidden group"
@@ -255,7 +277,7 @@
         ></div>
         <button
           id="prev-btn"
-          class="absolute left-0 top-1/2 -translate-y-1/2 bg-zinc-900/90 hover:bg-daimaoh text-white hover:text-zinc-900 p-2 md:p-3 rounded-r-lg transition opacity-100 md:opacity-0 md:group-hover:opacity-100 disabled:opacity-50 disabled:cursor-not-allowed"
+          class="absolute left-0 top-1/2 -translate-y-1/2 bg-zinc-900/90 hover:bg-daimaoh text-white hover:text-zinc-900 p-2 md:p-3 rounded-r-lg transition opacity-100 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <svg
             class="w-6 h-6"
@@ -273,7 +295,7 @@
         </button>
         <button
           id="next-btn"
-          class="absolute right-0 top-1/2 -translate-y-1/2 bg-zinc-900/90 hover:bg-daimaoh text-white hover:text-zinc-900 p-2 md:p-3 rounded-l-lg transition opacity-100 md:opacity-0 md:group-hover:opacity-100 disabled:opacity-50 disabled:cursor-not-allowed"
+          class="absolute right-0 top-1/2 -translate-y-1/2 bg-zinc-900/90 hover:bg-daimaoh text-white hover:text-zinc-900 p-2 md:p-3 rounded-l-lg transition opacity-100 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <svg
             class="w-6 h-6"
