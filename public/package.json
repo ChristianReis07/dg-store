@@ -5,6 +5,7 @@
   "main": "carousel.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npm run dev:css",
     "dev:css": "tailwindcss -i ./input.css -o ./output.css --watch",
     "build:css": "tailwindcss -i ./input.css -o ./output.css --minify"
   },

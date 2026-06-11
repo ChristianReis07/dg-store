@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Daimaoh GeekStore - Catálogo</title>
-    <link rel="icon" type="image/png" href="./assets/logos/coin.png" />
+    <link rel="icon" type="image/png" href="./assets/logos/coin.png?v=2" />
     <link href="./output.css" rel="stylesheet" />
   </head>
   <body
@@ -63,15 +63,6 @@
             ></span>
           </a>
           <a
-            href="./index.html#galeria"
-            class="h-full flex items-center text-sm font-medium text-zinc-400 hover:text-daimaoh relative group transition-colors"
-          >
-            Serviços
-            <span
-              class="absolute bottom-0 left-0 w-full h-0.5 bg-daimaoh scale-x-0 group-hover:scale-x-100 transition-transform origin-left"
-            ></span>
-          </a>
-          <a
             href="./catalogo.html"
             class="h-full flex items-center text-sm font-medium text-daimaoh relative group transition-colors"
           >
@@ -105,11 +96,6 @@
           href="./index.html#sobre"
           class="block text-zinc-400 hover:text-daimaoh font-medium transition-colors"
           >Sobre Nós</a
-        >
-        <a
-          href="./index.html#galeria"
-          class="block text-zinc-400 hover:text-daimaoh font-medium transition-colors"
-          >Serviços</a
         >
         <a
           href="./catalogo.html"
@@ -147,38 +133,60 @@
 
       <div
         id="search-container"
-        class="max-w-2xl mx-auto mb-10 hidden flex-col sm:flex-row gap-3"
+        class="max-w-5xl mx-auto mb-12 hidden flex-col md:flex-row gap-4 items-stretch w-full"
       >
-        <input
-          type="text"
-          id="search-input"
-          placeholder="Buscar produto pelo nome..."
-          class="flex-grow bg-zinc-800/80 border border-zinc-700/50 rounded-lg px-5 py-3 text-zinc-100 focus:outline-none focus:border-daimaoh transition-colors placeholder-zinc-500"
-        />
-        <button
-          id="search-btn"
-          class="bg-daimaoh text-zinc-900 px-8 py-3 rounded-lg font-bold hover:bg-daimaoh-hover transition-colors shrink-0 flex items-center justify-center gap-2"
+        <select
+          id="group-filter"
+          class="w-full md:w-48 bg-zinc-800/80 border border-zinc-700/50 rounded-lg px-4 py-3 text-zinc-100 focus:outline-none focus:border-daimaoh transition-colors cursor-pointer shrink-0"
         >
-          <svg
-            class="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
+          <option value="">Todas as categorias</option>
+        </select>
+
+        <select
+          id="brand-filter"
+          class="w-full md:w-48 bg-zinc-800/80 border border-zinc-700/50 rounded-lg px-4 py-3 text-zinc-100 focus:outline-none focus:border-daimaoh transition-colors cursor-pointer shrink-0"
+        >
+          <option value="">Todas as editoras</option>
+        </select>
+
+        <div class="flex-grow flex flex-col sm:flex-row gap-3">
+          <input
+            type="text"
+            id="search-input"
+            placeholder="Buscar produto pelo nome, marca..."
+            class="flex-grow bg-zinc-800/80 border border-zinc-700/50 rounded-lg px-5 py-3 text-zinc-100 focus:outline-none focus:border-daimaoh transition-colors placeholder-zinc-500"
+          />
+          <button
+            id="search-btn"
+            class="bg-daimaoh text-zinc-900 px-8 py-3 rounded-lg font-bold hover:bg-daimaoh-hover transition-colors shrink-0 flex items-center justify-center gap-2"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            ></path>
-          </svg>
-          Buscar
-        </button>
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              ></path>
+            </svg>
+            Buscar
+          </button>
+        </div>
       </div>
 
       <div
         class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
         id="catalog"
+      ></div>
+
+      <!-- Paginação -->
+      <div
+        id="pagination-container"
+        class="mt-12 flex justify-center items-center gap-2 flex-wrap"
       ></div>
     </main>
 

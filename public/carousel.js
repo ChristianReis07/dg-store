@@ -16,15 +16,73 @@ document.addEventListener("DOMContentLoaded", () => {
   modal.className =
     "fixed inset-0 z-[60] bg-zinc-900/95 backdrop-blur-md flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300";
   modal.innerHTML = `
-    <button class="absolute top-6 right-6 text-zinc-400 hover:text-daimaoh transition-colors">
+    <button id="close-modal-img-btn" class="absolute top-4 md:top-6 right-4 md:right-6 text-zinc-400 hover:text-daimaoh transition-colors z-[70]">
       <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
     </button>
-    <img src="" alt="" class="max-h-[90vh] max-w-[90vw] object-contain rounded-lg shadow-2xl shadow-daimaoh/20 transform scale-95 transition-transform duration-300" />
+    <button id="modal-prev-btn" class="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 text-zinc-100 hover:text-daimaoh transition-colors p-3 bg-zinc-900/80 rounded-full hover:bg-zinc-800 z-[70] shadow-lg">
+      <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.75 19.5L8.25 12l7.5-7.5"></path></svg>
+    </button>
+    <button id="modal-next-btn" class="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 text-zinc-100 hover:text-daimaoh transition-colors p-3 bg-zinc-900/80 rounded-full hover:bg-zinc-800 z-[70] shadow-lg">
+      <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path></svg>
+    </button>
+    <img src="" alt="" class="max-h-[90vh] max-w-[90vw] object-contain rounded-lg shadow-2xl shadow-daimaoh/20 transform scale-95 transition-transform duration-300 relative z-50" />
   `;
   document.body.appendChild(modal);
 
   const modalImg = modal.querySelector("img");
-  const closeBtn = modal.querySelector("button");
+  const closeBtn = modal.querySelector("#close-modal-img-btn");
+  const modalPrevBtn = modal.querySelector("#modal-prev-btn");
+  const modalNextBtn = modal.querySelector("#modal-next-btn");
+
+  let currentModalIndex = 0;
+
+  const updateModalImage = (index) => {
+    if (index < 0) index = imagens.length - 1;
+    if (index >= imagens.length) index = 0;
+    currentModalIndex = index;
+    modalImg.src = imagens[currentModalIndex].src;
+    modalImg.alt = imagens[currentModalIndex].alt;
+  };
+
+  modalPrevBtn.addEventListener("click", (e) => {
+    e.stopPropagation(); // Evita que clique feche a janela
+    updateModalImage(currentModalIndex - 1);
+  });
+
+  modalNextBtn.addEventListener("click", (e) => {
+    e.stopPropagation(); // Evita que clique feche a janela
+    updateModalImage(currentModalIndex + 1);
+  });
+
+  // Adicionando suporte a Swipe (deslizar o dedo) na imagem do modal
+  let modalStartX = 0;
+  let modalEndX = 0;
+
+  modalImg.addEventListener(
+    "touchstart",
+    (e) => {
+      modalStartX = e.touches[0].clientX;
+    },
+    { passive: true },
+  );
+
+  modalImg.addEventListener(
+    "touchmove",
+    (e) => {
+      modalEndX = e.touches[0].clientX;
+    },
+    { passive: true },
+  );
+
+  modalImg.addEventListener("touchend", () => {
+    if (!modalStartX || !modalEndX) return;
+    const diffX = modalStartX - modalEndX;
+    if (diffX > 50)
+      updateModalImage(currentModalIndex + 1); // Swipe Esquerda -> Próxima
+    else if (diffX < -50) updateModalImage(currentModalIndex - 1); // Swipe Direita -> Anterior
+    modalStartX = 0;
+    modalEndX = 0;
+  });
 
   const closeModal = () => {
     modal.classList.remove("opacity-100", "pointer-events-auto");
@@ -38,12 +96,21 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.target === modal) closeModal();
   });
 
+  // Navegar e fechar modal de imagem com o teclado
+  document.addEventListener("keydown", (e) => {
+    if (!modal.classList.contains("pointer-events-none")) {
+      if (e.key === "Escape") closeModal();
+      if (e.key === "ArrowLeft") updateModalImage(currentModalIndex - 1);
+      if (e.key === "ArrowRight") updateModalImage(currentModalIndex + 1);
+    }
+  });
+
   const realCount = imagens.length;
   const allImages = [...imagens, ...imagens, ...imagens];
   let currentIndex = realCount;
   let isTransitioning = false;
 
-  allImages.forEach((img) => {
+  allImages.forEach((img, idx) => {
     const slide = document.createElement("div");
     slide.className =
       "min-w-full sm:min-w-[50%] md:min-w-[33.333%] lg:min-w-[25%] p-2 flex-shrink-0";
@@ -55,8 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const imgElement = slide.querySelector("img");
     imgElement.addEventListener("click", () => {
-      modalImg.src = img.src;
-      modalImg.alt = img.alt;
+      updateModalImage(idx % imagens.length);
       modal.classList.remove("opacity-0", "pointer-events-none");
       modal.classList.add("opacity-100", "pointer-events-auto");
       setTimeout(() => {
